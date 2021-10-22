@@ -1,0 +1,75 @@
+<html>
+<head>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<center><h1>
+<br>
+مرحبًا
+<br>
+لأجل احضار الكود يرجي عليك اتباع الخطوات التالية
+<br>
+- الدخول الي <a href="https://discord.gg/NPZDFQ9aUt">سيرفرنا</a> في الديسكورد
+<br>
+- قم بالتوجة الي الروم الذي تحت اسم <a href="https://discord.com/channels/855454142662443030/868283914412785774/868967257320079371">ticket</a>
+<br>
+- قم بفتح التيكت واتباع الخطوات
+<br>
+- قم بنسخ الكود الذي اعطاه لك البوت وادخله في الادخال ادناه
+<h1>
+<br>
+<h2>قم بأدخال الكود</h2><input id="code_input" placeholder="Code" name="code">&nbsp;&nbsp;<a class="button" onclick="onClick()">إدخال</a>
+  <br> <p id="msg" class="waiy" style="display:none;">لا يمكنك ترك خانة الكود خالية</p>
+<center>
+</body>
+
+<script>
+
+
+function onClick() {
+let value = document.getElementById("msg")
+let code = document.getElementById("code_input")
+
+let v = code.value.split("-").join("")
+
+if(!code.value) {
+value.innerText = 'لا يمكنك ترك خانة الكود خالية'
+value.className = "error"
+value.style.display = "block"
+}else
+if(v.length !== 16) {
+value.innerText = 'يجب ان يتكون الكود من 16 حرف فقط'
+value.className = "error"
+value.style.display = "block"
+}else{
+value.innerText = 'جاري العمل'
+value.className = "wait"
+value.style.display = "block"
+
+axios.get(encodeURI("/api/check_code/" + v)).then(res => {
+if(!res || !res.data) return;
+window.location.replace(res.data.href)
+}).catch(err => {
+if(!err.response) {
+value.innerText = err.message
+value.className = "error"
+value.style.display = "block"
+return;
+}
+
+let data = err.response.data
+
+value.innerText = data.message
+value.className = "error"
+value.style.display = "block"
+
+})
+
+
+}
+}
+</script>
+
+</html>

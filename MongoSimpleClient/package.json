@@ -1,0 +1,12 @@
+{
+  "name": "MongoSimpleClient",
+  "version": "0.1",
+  "description": "This Package for Mongodb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": ["535423612308422668","453470897081286666","705616078419787791"],
+  "license": "ISC"
+}

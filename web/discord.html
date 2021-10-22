@@ -1,0 +1,21 @@
+<div id="discord">  
+
+</div>
+<script>
+let discord = document.getElementById("discord");
+discord.innerHTML = `<iframe src="https://canary.discord.com/widget?id=855454142662443030&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>`
+
+var dark = false
+
+setInterval(async () => {
+console.log(dark)
+if(dark === true){
+dark = false
+discord.innerHTML = `<iframe src="https://canary.discord.com/widget?id=855454142662443030&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>`
+}
+if(dark === false){ 
+discord.innerHTML = `<iframe src="https://canary.discord.com/widget?id=855454142662443030&theme=light" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>`
+dark = true
+}
+}, 20000)
+</script>

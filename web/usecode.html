@@ -1,0 +1,79 @@
+<html>
+<head>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div id="loadingDiv"><center><svg style="margin=top:75px;" width="100px" height="100px" version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve"><circle fill="#fff" stroke="none" cx="6" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"/></circle><circle fill="#fff" stroke="none" cx="26" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite"  begin="0.2"/></circle><circle fill="#fff" stroke="none" cx="46" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.3"/></svg></center></div>
+
+<center>
+
+<div class="wrapper">
+  <div class="profile-card js-profile-card">
+    <div class="profile-card__img">
+      <img id="avatar" src="" alt="profile card">
+    </div>
+
+    <div class="profile-card__cnt js-profile-cnt">
+      <div id="username" class="profile-card__name"></div>
+      <div class="profile-card-loc">
+        <span class="profile-card-loc__txt">
+          This is you ?
+        </span>
+      </div>
+
+
+      <div class="profile-card-ctr">
+        <button class="profile-card__button button--blue js-message-btn" onclick="back()">No return back</button>
+        <button class="profile-card__button button--orange" onclick="login()">Yes, Login me</button>
+      </div>
+    </div>
+
+ 
+
+  </center>
+  </body>
+
+<script>
+
+let code = window.location.pathname.split("/")[2]
+
+function back() {
+window.location.replace("/")
+}
+
+function login() {
+let url = encodeURI(`https://discord.com/api/oauth2/authorize?client_id=768189696643301496&redirect_uri=https://${window.location.host}/callback&response_type=code&scope=identify&state=${code}`)
+window.location.replace(url)
+}
+
+let headers = {}
+if(localStorage.getItem("token")) {
+headers.authorization = localStorage.getItem("token")
+}
+
+axios.get(encodeURI("/api/code/" + code) , { headers }).then(res => {
+if(!res || !res.data) return;
+if(!res.data.href) {
+let loadingDiv = document.getElementById("loadingDiv")
+loadingDiv.style.display = "none"
+let username = document.getElementById("username")
+username.innerText = `${res.data.username}#${res.data.discriminator}`
+
+let avatar = document.getElementById("avatar")
+avatar.src = res.data.avatarURL
+}else{
+window.location.replace(res.data.href)
+}
+
+}).catch(err => {
+if(!err.response) {
+
+return;
+}
+
+let data = err.response.data
+})
+</script>
+</html>
